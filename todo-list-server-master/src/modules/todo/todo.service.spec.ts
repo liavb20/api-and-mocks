@@ -59,7 +59,6 @@ describe('learn Mocks', () => {
         const listToTodo: ITodoWithoutCompleted = {listId: listId, task: "Stay Home"};
         const userId: string = (todoFake.add(listToTodo)[0].id); 
         const date : Date = new Date (2017, 4, 10, 17, 23, 42, 11);
-        // console.log(`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`);
         expect(Object.keys(todoFake.getByID(userId))).not.toContain('finishDate')
         const response = todoFake.editDate(userId, date);
         expect(Object.keys(response)).toContain('finishDate');
@@ -71,3 +70,4 @@ describe('learn Mocks', () => {
         expect(response2).toEqual(todoFake.getByID(userId));
     });
 });
+ 
