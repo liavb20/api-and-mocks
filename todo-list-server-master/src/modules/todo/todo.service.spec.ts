@@ -4,23 +4,10 @@ import TodoService from "./todo.service";
 import { ITodoList } from "modules/todo-list/interfaces";
 import { todoListService } from "./../../modules/todo-list/todo-list.service";
 import {ITodoWithoutCompleted} from './interfaces'
+import{fakeDB} from './fakeDb';
 
-let listId : string = '';
-const fakeDB: IDB<ITodo> = {
-    get: jest.fn((id: string) : DbDocument<ITodo> => {
-        return {id: id , task: 'sucssess', listId: listId, isCompleted: false };
-    }),
-    getAll: jest.fn(() : DbDocument<ITodo>[] => {return [{id: '123456' , task: 'sucssess', listId: '654321', isCompleted: false },
-        {id: '666', task: 'sleep', listId: '555', isCompleted: false}];
-    }) ,
-    add: jest.fn((entities: DbDocument<ITodo> | DbDocument<ITodo>[]) : DbDocument<any>[] =>     {
-        return [entities];
-    }),
-    edit: jest.fn((entity: DbDocument<ITodo>) : DbDocument<ITodo> => {return entity;} ), 
-    remove: jest.fn((id: string) : DbDocument<ITodo> => {
-        return fakeDB.get(id);
-    })
-};
+
+export let listId : string = '';
 
 const todoFake = new TodoService(fakeDB);
 const todoList : ITodoList = {name: "liav"};
@@ -33,10 +20,12 @@ describe('learn Mocks', () => {
         expect(fakeDB.getAll).toBeCalled();
     });
     it('get by id', ()=> {
-        const userId : string = 'doesnt matter';
+        const userId : string = 'doesnt matter which string because the mock';
         todoFake.getByID(userId)
         expect(fakeDB.get).toBeCalledWith(userId);
     });
+
+    
     it('add', ()=> {   
         const listToTodo : ITodoWithoutCompleted= {listId: listId, task: "Stay Home"};
         const objKeys : object = Object.keys(todoFake.add(listToTodo)[0]);
