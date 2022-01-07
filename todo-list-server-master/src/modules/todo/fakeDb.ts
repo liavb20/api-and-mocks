@@ -12,12 +12,16 @@ export const fakeDB: IDB<ITodo> = {
                 {id: '666', task: 'sleep', listId: '555', isCompleted: false}];
     }),
     add: jest.fn((entities: DbDocument<ITodo> | DbDocument<ITodo>[]) : DbDocument<any>[] => {
+        //CR: Change from any type to explicit type.
+        //CR: Mock Const value instead of request param.
         return [entities];
     }),
     edit: jest.fn((entity: DbDocument<ITodo>) : DbDocument<ITodo> => {
+        //CR: you are mocking edit method but you retrun the same object without modification.
         return entity;
     }), 
     remove: jest.fn((id: string) : DbDocument<ITodo> => {
+        //CR: Mock const value instead of request param.
         return fakeDB.get(id);
     })
 };
